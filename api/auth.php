@@ -233,11 +233,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['roles'] = $roles;
                 $_SESSION['user'] = $user;
 
+                // Check user account status
+                if ($user['status'] === 'inactive') {
+                    session_destroy();
+                    echo json_encode(['success' => false, 'message' => 'Your account has been deactivated.']);
+                    exit();
+                }
+
                 // Fetch school details if applicable
                 if ($user['school_id']) {
                     $stmt = $pdo->prepare("SELECT * FROM schools WHERE id = ?");
                     $stmt->execute([$user['school_id']]);
-                    $_SESSION['school'] = $stmt->fetch();
+                    $sch = $stmt->fetch();
+
+                    if ($sch && $sch['status'] === 'inactive' && !in_array('global_admin', $roles)) {
+                        session_destroy();
+                        echo json_encode(['success' => false, 'message' => 'This school portal has been suspended. Please contact the administrator.']);
+                        exit();
+                    }
+                    $_SESSION['school'] = $sch;
                 }
 
                 // Log activity

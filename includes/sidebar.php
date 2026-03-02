@@ -35,9 +35,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <li class="<?php echo strpos($_SERVER['PHP_SELF'], 'modules/classes') !== false ? 'active' : ''; ?>">
                 <a href="<?php echo $project_root; ?>modules/classes/list.php"><i class="fas fa-school"></i> Classes</a>
             </li>
-            <li class="<?php echo strpos($_SERVER['PHP_SELF'], 'modules/subjects') !== false ? 'active' : ''; ?>">
-                <a href="<?php echo $project_root; ?>modules/subjects/list.php"><i class="fas fa-book"></i> Subjects</a>
-            </li>
 
             <li class="nav-label">Accounting</li>
             <li class="<?php echo strpos($_SERVER['PHP_SELF'], 'modules/payments') !== false ? 'active' : ''; ?>">

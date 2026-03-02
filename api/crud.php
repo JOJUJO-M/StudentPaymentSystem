@@ -11,9 +11,20 @@ $entity = $_GET['entity'] ?? '';
 
 // Security: White-list entities
 $allowed_entities = [
-    'students', 'teachers', 'classes', 'subjects', 'departments',
-    'grades', 'attendance', 'activity_logs', 'settings', 'schools',
-    'payments', 'academic_years', 'users', 'roles'
+    'students',
+    'teachers',
+    'classes',
+    'subjects',
+    'departments',
+    'grades',
+    'attendance',
+    'activity_logs',
+    'settings',
+    'schools',
+    'payments',
+    'academic_years',
+    'users',
+    'roles'
 ];
 
 if (!in_array($entity, $allowed_entities)) {
@@ -45,8 +56,18 @@ try {
             $params = [];
             $where = [];
 
-            if (!$is_global && in_array($entity, ['students', 'teachers', 'classes', 'subjects', 'departments', 'payments',
-                'academic_years', 'users'])) {
+            if (
+                !$is_global && in_array($entity, [
+                    'students',
+                    'teachers',
+                    'classes',
+                    'subjects',
+                    'departments',
+                    'payments',
+                    'academic_years',
+                    'users'
+                ])
+            ) {
                 $where[] = "school_id = ?";
                 $params[] = $school_id;
             }
@@ -92,9 +113,12 @@ try {
             $stmt->execute(array_values($data));
             $new_id = $pdo->lastInsertId();
 
-            // Log activity
-            $stmt_log = $pdo->prepare("INSERT INTO activity_logs (user_id, action, details, school_id) VALUES (?, ?, ?, ?)");
-            $stmt_log->execute([$_SESSION['user_id'], "Create $entity", "Created $entity ID: $new_id", $school_id]);
+            // Log activity (isolated — never breaks main response)
+            try {
+                $stmt_log = $pdo->prepare("INSERT INTO activity_logs (user_id, action, details, school_id) VALUES (?, ?, ?, ?)");
+                $stmt_log->execute([$_SESSION['user_id'], "Create $entity", "Created $entity ID: $new_id", $school_id]);
+            } catch (Exception $log_e) { /* logging failure is non-fatal */
+            }
 
             echo json_encode(['success' => true, 'message' => ucfirst($entity) . ' created successfully', 'id' => $new_id]);
             break;
@@ -116,12 +140,23 @@ try {
             foreach (array_keys($data) as $key) {
                 $sets[] = "$key = ?";
             }
+            if (empty($sets)) {
+                echo json_encode(['success' => false, 'message' => 'No data provided for update']);
+                exit();
+            }
             $sql = "UPDATE $entity SET " . implode(', ', $sets) . " WHERE id = ?";
             $params = array_values($data);
             $params[] = $id;
 
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
+
+            // Log activity (isolated — never breaks main response)
+            try {
+                $stmt_log = $pdo->prepare("INSERT INTO activity_logs (user_id, action, details, school_id) VALUES (?, ?, ?, ?)");
+                $stmt_log->execute([$_SESSION['user_id'], "Update $entity", "Updated $entity ID: $id", $school_id]);
+            } catch (Exception $log_e) { /* logging failure is non-fatal */
+            }
 
             echo json_encode(['success' => true, 'message' => ucfirst($entity) . ' updated successfully']);
             break;
@@ -140,6 +175,14 @@ try {
 
             $stmt = $pdo->prepare("DELETE FROM $entity WHERE id = ?");
             $stmt->execute([$id]);
+
+            // Log activity (isolated — never breaks main response)
+            try {
+                $stmt_log = $pdo->prepare("INSERT INTO activity_logs (user_id, action, details, school_id) VALUES (?, ?, ?, ?)");
+                $stmt_log->execute([$_SESSION['user_id'], "Delete $entity", "Deleted $entity ID: $id", $school_id]);
+            } catch (Exception $log_e) { /* logging failure is non-fatal */
+            }
+
             echo json_encode(['success' => true, 'message' => ucfirst($entity) . ' deleted successfully']);
             break;
 

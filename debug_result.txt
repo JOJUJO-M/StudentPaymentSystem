@@ -1,0 +1,36 @@
+SCHOOLS_COLS:
+id|int(11)|Null:NO|Def:N
+name|varchar(255)|Null:NO|Def:N
+reg_number|varchar(20)|Null:YES|Def:N
+address|text|Null:YES|Def:N
+phone|varchar(20)|Null:YES|Def:N
+email|varchar(100)|Null:YES|Def:N
+website|varchar(100)|Null:YES|Def:N
+logo|varchar(255)|Null:YES|Def:default_school.png
+status|varchar(20)|Null:YES|Def:active
+created_at|timestamp|Null:NO|Def:current_timestamp()
+
+SCHOOLS_DATA:
+id=1 name=Ndandalo status=active
+id=2 name=Kyela Sec School status=inactive
+
+UPDATE_TEST: OK for id 1
+
+RELATED_DATA for school 1:
+
+FK_CONSTRAINTS:
+academic_years|CASCADE|ay_ibfk_1
+classes|CASCADE|classes_ibfk_1
+departments|CASCADE|dept_ibfk_1
+payments|CASCADE|payments_ibfk_1
+students|CASCADE|students_ibfk_3
+subjects|CASCADE|subjects_ibfk_1
+users|SET NULL|users_ibfk_1
+
+ACTIVITY_LOGS_COLS:
+id|int(11)|Null:NO
+school_id|int(11)|Null:YES
+user_id|int(11)|Null:YES
+action|varchar(255)|Null:NO
+details|text|Null:YES
+timestamp|timestamp|Null:NO

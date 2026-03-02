@@ -19,6 +19,11 @@ require_global_admin();
                         placeholder="Enter school name">
                 </div>
                 <div class="form-group">
+                    <label for="reg_number">School Number (Reg ID)</label>
+                    <input type="text" id="reg_number" name="reg_number" class="form-control" required
+                        placeholder="e.g. S001">
+                </div>
+                <div class="form-group">
                     <label for="email">School Email</label>
                     <input type="email" id="email" name="email" class="form-control" required
                         placeholder="Enter school email">

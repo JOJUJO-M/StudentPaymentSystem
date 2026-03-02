@@ -32,6 +32,7 @@ CREATE TABLE `schools` (
   `phone` varchar(20),
   `email` varchar(100),
   `logo` varchar(255) DEFAULT NULL,
+  `status` enum('active', 'inactive') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

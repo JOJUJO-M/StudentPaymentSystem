@@ -38,7 +38,8 @@ $recent_activities = $stmt_act->fetchAll();
     <h1>Welcome,
         <?php echo htmlspecialchars($_SESSION['username']); ?>
     </h1>
-    <p>Management Overview for <?php echo htmlspecialchars($_SESSION['school']['name'] ?? 'Your School'); ?> (<?php echo htmlspecialchars($_SESSION['school']['reg_number'] ?? '-'); ?>)</p>
+    <p>Management Overview for <?php echo htmlspecialchars($_SESSION['school']['name'] ?? 'Your School'); ?>
+        (<?php echo htmlspecialchars($_SESSION['school']['reg_number'] ?? '-'); ?>)</p>
 </div>
 
 <div class="stats-grid">
@@ -114,8 +115,6 @@ $recent_activities = $stmt_act->fetchAll();
             <div class="list-group">
                 <a href="<?php echo $project_root; ?>modules/classes/list.php" class="list-group-item"><i
                         class="fas fa-door-open"></i> Class Management</a>
-                <a href="<?php echo $project_root; ?>modules/subjects/list.php" class="list-group-item"><i
-                        class="fas fa-book"></i> Subject Allocation</a>
                 <a href="<?php echo $project_root; ?>modules/academic_years/list.php" class="list-group-item"><i
                         class="fas fa-calendar-check"></i> Term Settings</a>
             </div>

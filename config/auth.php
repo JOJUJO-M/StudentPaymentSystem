@@ -50,6 +50,25 @@ function require_login()
         header('Location: ' . $project_root . 'login.php');
         exit();
     }
+
+    // Check school status live if user belongs to one
+    $user = $_SESSION['user'] ?? null;
+    if ($user && !empty($user['school_id']) && !has_role('global_admin')) {
+        global $pdo;
+        $stmt = $pdo->prepare("SELECT status FROM schools WHERE id = ?");
+        $stmt->execute([$user['school_id']]);
+        $status = $stmt->fetchColumn();
+        if ($status === 'inactive') {
+            session_destroy();
+            if (strpos($_SERVER['REQUEST_URI'], '/api/') !== false) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'School portal suspended.']);
+            } else {
+                header('Location: ' . $project_root . 'login.php?error=suspended');
+            }
+            exit();
+        }
+    }
 }
 
 /**

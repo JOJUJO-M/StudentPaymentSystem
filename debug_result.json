@@ -1,0 +1,186 @@
+{
+    "schools_columns": [
+        {
+            "Field": "id",
+            "Type": "int(11)",
+            "Null": "NO",
+            "Key": "PRI",
+            "Default": null,
+            "Extra": "auto_increment"
+        },
+        {
+            "Field": "name",
+            "Type": "varchar(255)",
+            "Null": "NO",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "reg_number",
+            "Type": "varchar(20)",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "address",
+            "Type": "text",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "phone",
+            "Type": "varchar(20)",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "email",
+            "Type": "varchar(100)",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "website",
+            "Type": "varchar(100)",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "logo",
+            "Type": "varchar(255)",
+            "Null": "YES",
+            "Key": "",
+            "Default": "default_school.png",
+            "Extra": ""
+        },
+        {
+            "Field": "status",
+            "Type": "varchar(20)",
+            "Null": "YES",
+            "Key": "",
+            "Default": "active",
+            "Extra": ""
+        },
+        {
+            "Field": "created_at",
+            "Type": "timestamp",
+            "Null": "NO",
+            "Key": "",
+            "Default": "current_timestamp()",
+            "Extra": ""
+        }
+    ],
+    "schools_data": [
+        {
+            "id": "1",
+            "name": "Ndandalo",
+            "status": "active"
+        },
+        {
+            "id": "2",
+            "name": "Kyela Sec School",
+            "status": "inactive"
+        }
+    ],
+    "fk_constraints": [
+        {
+            "TABLE_NAME": "academic_years",
+            "DELETE_RULE": "CASCADE",
+            "CONSTRAINT_NAME": "ay_ibfk_1"
+        },
+        {
+            "TABLE_NAME": "classes",
+            "DELETE_RULE": "CASCADE",
+            "CONSTRAINT_NAME": "classes_ibfk_1"
+        },
+        {
+            "TABLE_NAME": "departments",
+            "DELETE_RULE": "CASCADE",
+            "CONSTRAINT_NAME": "dept_ibfk_1"
+        },
+        {
+            "TABLE_NAME": "payments",
+            "DELETE_RULE": "CASCADE",
+            "CONSTRAINT_NAME": "payments_ibfk_1"
+        },
+        {
+            "TABLE_NAME": "students",
+            "DELETE_RULE": "CASCADE",
+            "CONSTRAINT_NAME": "students_ibfk_3"
+        },
+        {
+            "TABLE_NAME": "subjects",
+            "DELETE_RULE": "CASCADE",
+            "CONSTRAINT_NAME": "subjects_ibfk_1"
+        },
+        {
+            "TABLE_NAME": "users",
+            "DELETE_RULE": "SET NULL",
+            "CONSTRAINT_NAME": "users_ibfk_1"
+        }
+    ],
+    "activity_logs_columns": [
+        {
+            "Field": "id",
+            "Type": "int(11)",
+            "Null": "NO",
+            "Key": "PRI",
+            "Default": null,
+            "Extra": "auto_increment"
+        },
+        {
+            "Field": "school_id",
+            "Type": "int(11)",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "user_id",
+            "Type": "int(11)",
+            "Null": "YES",
+            "Key": "MUL",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "action",
+            "Type": "varchar(255)",
+            "Null": "NO",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "details",
+            "Type": "text",
+            "Null": "YES",
+            "Key": "",
+            "Default": null,
+            "Extra": ""
+        },
+        {
+            "Field": "timestamp",
+            "Type": "timestamp",
+            "Null": "NO",
+            "Key": "",
+            "Default": "current_timestamp()",
+            "Extra": ""
+        }
+    ],
+    "test_results": {
+        "update": "SUCCESS"
+    }
+}
